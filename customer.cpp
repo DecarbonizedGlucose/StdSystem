@@ -7,6 +7,7 @@
 #include <fstream>
 #include "list.h"
 #include "order.h"
+#include <list>
 #define _CRT_SECURE_NO_WARNINGS 1 
 using namespace std;
 
@@ -28,6 +29,7 @@ void Cust::operMenu()
 	{
 		cout << "<Input> ";
 		getline(cin, choice);
+		//cin >> choice;
 		if (choice == "1")
 		{
 			// create and submit an order
@@ -36,10 +38,12 @@ void Cust::operMenu()
 		else if (choice == "2")
 		{
 			// show my orders
+			showMyOrder();
 		}
 		else if (choice == "3")
 		{
 			// cancel my order
+			cancelOrder();
 		}
 		else if (choice == "0")
 		{
@@ -78,22 +82,55 @@ void Cust::submitOrder()
 	string code;
 	sst >> code;
 	ofstream ofs(ORDER_FILE, ios::app);
-	cout << "请输入人数：" << endl;
-	cout << "<Input> ";
 	string num;
-	getline(cin, num);
+	//getline(cin, num); // 这他妈哪来的bug
+	//cin >> num;
+	//cin.clear();
+	//cin.sync(); // 这玩意在vs里没用
+	//cin.ignore();
+	while (true)
+	{
+		cout << "请输入人数：" << endl;
+		cout << "<Input> ";
+		getline(cin, num);
+		if (num == "1" || num == "2" || num == "3" || num == "4") break;
+		else if (num == "0")
+		{
+			cout << "[Info] 已取消" << endl;
+			ofs.close();
+			return;
+		}
+		else cout << "[Info] 输入有误，请重新输入" << endl;
+	}
 	ofs << code << " " << usrId << " " << num << " 0" << endl;
 	ofs.close();
 	cout << "[Info] 提交成功" << endl;
 }
 
-ostream& operator<<(ostream& cout, Order o)
+ostream& operator<<(ostream& cout, Order& o)
 {
-	cout << o.orderId << " " << o.usrId << " " << o.req << " " << o.state << endl;
+	//cout << orderId << " " << usrId << " " << req << " " << state << endl;
+	cout << o.orderId << '\t' << o.usrId << '\t' << o.req << '\t';
+	switch (o.state)
+	{
+	case 0:
+		cout << "未处理"; break;
+	case 1:
+		cout << "已处理 未完成"; break;
+	case 2:
+		cout << "已完成"; break;
+	case 3:
+		cout << "驳回"; break;
+	case 4:
+		cout << "用户撤销"; break;
+	default:
+		cout << "你他妈是不是打错字了";
+	}
+	cout << endl;
 	return cout;
 }
 
-void Cust::cancelOrder()
+void Cust::showMyOrder()
 {
 	fstream ifs(ORDER_FILE, ios::in);
 	string code, name;
@@ -102,12 +139,23 @@ void Cust::cancelOrder()
 	while (ifs >> code)
 	{
 		ifs >> name >> num >> state;
-		/*if (name == this->usrName)
-			orders.addBack(Order(code, name, num, state));*/
-		/*for (int i = 1; i < orders.length; ++i)
+		if (name == this->usrId)
 		{
-			cout << orders[i];
-		}*/
+			orders.addBack(Order(code, name, num, state));
+			//cout << "成功添加一个" << endl;
+		}
+	}
+	Node<Order>* f = orders.head->next;
+	cout << "编号\t\t用户\t需求\t状态" << endl;
+	while (f)
+	{
+		cout << f->value;
+		f = f->next;
 	}
 	ifs.close();
+}
+
+void Cust::cancelOrder()
+{
+
 }

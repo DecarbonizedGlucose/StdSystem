@@ -59,7 +59,7 @@ void Admin::showAllOrder()
 		ifs.close();
 		return;
 	}
-	cout << "编号\t用户\t需求\t状态" << endl;
+	cout << "编号\t\t用户\t需求\t状态" << endl;
 	string odid, urid;
 	int req, state;
 	while (ifs >> odid)

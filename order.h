@@ -28,7 +28,4 @@ public:
 		this->req = req;
 		this->state = state;
 	}
-
-	
-
 };

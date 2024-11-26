@@ -18,5 +18,7 @@ public:
 
 	void submitOrder();
 
+	void showMyOrder();
+
 	void cancelOrder();
 };
