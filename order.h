@@ -6,6 +6,8 @@
 #include "globalfile.h"
 using namespace std;
 
+class Order;
+
 class Order
 {
 public:
@@ -22,7 +24,7 @@ public:
 	* 4 用户撤销
 	*/
 
-	Order() {} 
+	Order() {}
 
 	Order(string odid, string urid, int req, int state, string room)
 	{
@@ -33,46 +35,13 @@ public:
 		roomId = room;
 	}
 
-	static void showAll()
-	{
-		ifstream ifs(ORDER_FILE, ios::in);
-		if (!ifs.is_open())
-		{
-			cout << "[Info] 文件读取失败" << endl;
-			ifs.close();
-			return;
-		}
-		cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
-		string odid, urid, room;
-		int req, state;
-		while (ifs >> odid)
-		{
-			ifs >> urid >> req >> state >> room;
-			cout << odid << '\t' << urid << '\t' << req << '\t';
-			switch (state)
-			{
-			case 0:
-				cout << "未分配"; break;
-			case 1:
-				cout << "未完成"; break;
-			case 2:
-				cout << "已离店"; break;
-			case 3:
-				cout << "驳回"; break;
-			case 4:
-				cout << "订单取消"; break;
-			default:
-				cout << "你他妈是不是打错字了";
-			}
-			if (room != "none") cout << '\t' << room;
-			cout << endl;
-		}
-		ifs.close();
-	}
+	//static Order* empty;
 
-	static void showOnes()
-	{
-	}
+	friend ostream& operator<<(ostream& cout, Order& o);
 
-	//friend ostream& operator<<(ostream& cout, Order& o);
+	friend bool operator==(Order& o1, Order& o2);
+
+	static void showAll();
+
+	static void showOnes();
 };

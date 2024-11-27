@@ -6,6 +6,11 @@
 #include "list.h"
 using namespace std;
 
+
+class Room;
+
+ostream& operator<<(ostream& cout, Room r);
+
 class Room
 {
 public:
@@ -78,9 +83,3 @@ public:
 		}
 	}
 };
-
-ostream& operator<<(ostream& cout, Room& r)
-{
-	cout << r.roomId << '\t' << r.roomSize << '\t' << r.roomState << endl;
-	return cout;
-}

@@ -13,6 +13,7 @@ public:
 	T value;
 	Node<T>* next;
 	Node(T v, Node* n);
+	//~Node();
 };
 
 template<class T>
@@ -44,6 +45,9 @@ public:
 	T back();
 	void reverse();
 	void bubbleSort();
+	~List();
+
+	Node<T>* find(T con);
 
 	/*
 	list原始设计问题，加不了了
@@ -324,3 +328,24 @@ void List<T>::bubbleSort() // 排序，采用冒泡，只交换数据域
 	}
 }
 
+template<class T>
+List<T>::~List()
+{
+	while (length > 0)
+	{
+		popFront();
+	}
+	delete head;
+}
+
+template<class T>
+Node<T>* List<T>::find(T con)
+{
+	Node<T>* f = head->next;
+	while (f)
+	{
+		if (f->value == con) return f;
+		f = f->next;
+	}
+	return nullptr;
+}

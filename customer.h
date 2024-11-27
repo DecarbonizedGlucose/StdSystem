@@ -21,4 +21,6 @@ public:
 	void showMyOrder();
 
 	void cancelOrder();
+
+	static bool find(string usrId);
 };

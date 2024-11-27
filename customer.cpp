@@ -14,6 +14,7 @@ using namespace std;
 Cust::Cust() {}
 
 Cust::Cust(string id, string psw) : usrId(id), usrPsw(psw) {}
+ 
 
 void Cust::operMenu()
 {
@@ -90,7 +91,7 @@ void Cust::submitOrder()
 	//cin.ignore();
 	while (true)
 	{
-		cout << "请输入人数：" << endl;
+		cout << "请输入人数（输入0返回）：" << endl;
 		cout << "<Input> ";
 		getline(cin, num);
 		if (num == "1" || num == "2" || num == "3" || num == "4") break;
@@ -115,12 +116,17 @@ void Cust::showMyOrder()
 	List<Order> orders;
 	while (ifs >> code)
 	{
-		ifs >> name >> num >> state;
+		ifs >> name >> num >> state >> room;
 		if (name == this->usrId)
 		{
 			orders.addBack(Order(code, name, num, state, room));
-			//cout << "成功添加一个" << endl;
 		}
+	}
+	if (orders.length == 0)
+	{
+		cout << endl << "[Info] 未找到相关订单" << endl << endl;
+		ifs.close();
+		return;
 	}
 	Node<Order>* f = orders.head->next;
 	cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
@@ -129,10 +135,76 @@ void Cust::showMyOrder()
 		cout << f->value;
 		f = f->next;
 	}
+	cout << "[Info] 共找到" << orders.length << "条订单记录" << endl;
 	ifs.close();
 }
 
 void Cust::cancelOrder()
 {
+	fstream ifs(ORDER_FILE, ios::in);
+	string code, name, room;
+	int num, state, cnt = 0;
+	List<Order> orders;
+	while (ifs >> code)
+	{
+		ifs >> name >> num >> state;
+		if (name == this->usrId) ++cnt;
+		orders.addBack(Order(code, name, num, state, room));
+	}
+	if (!cnt)
+	{
+		cout << endl << "[Info] 未找到相关订单" << endl << endl;
+		ifs.close();
+		return;
+	}
+	Node<Order>* f = orders.head->next;
+	cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
+	while (f)
+	{
+		if (f->value.usrId == this->usrId)
+			cout << f->value;
+		f = f->next;
+	}
+	ifs.close();
+	cout << endl << "请输入要取消的订单（输入0返回）：" << endl;
+	string iptId;
+	Node<Order>* n;
+	while (true)
+	{
+		cout << "<Input> ";
+		getline(cin, iptId);
+		n = orders.find(Order(iptId, "", 0, 0, ""));
+		if (n) break;
+		else if (iptId == "0") 
+		{
+			cout << "[Info] 已放弃修改" << endl;
+			return;
+		}
+		else cout << "[Info] 输入有误，请重新输入" << endl;
+	}
+	n->value.state = 4;
+	n->value.roomId = "none";
+	ofstream ofs(ORDER_FILE, ios::out | ios::trunc);
+	if (!ofs.is_open())
+	{
+		cout << "[Info] 修改失败" << endl;
+		ofs.close();
+		return;
+	}
+	n = orders.head->next;
+	while (n)
+	{
+		ofs << n->value.orderId << ' ' << n->value.usrId << ' ';
+		ofs << n->value.req << ' ' << n->value.state << ' ';
+		ofs << n->value.roomId << endl;
+		n = n->next;
+	}
+	ofs.close();
+	cout << "[Info] 撤销成功" << endl;
+}
 
+bool Cust::find(string usrId)
+{
+	bool flag = 0;
+	return flag;
 }
