@@ -18,5 +18,9 @@ public:
 
 	void showAllOrder();
 
+	void showOnesOrder();
+
 	void manageOrder();
+
+	void showAllRoom();
 };

@@ -137,6 +137,7 @@
     <ClCompile Include="clerk.cpp" />
     <ClCompile Include="customer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="order.cpp" />
     <ClCompile Include="room.cpp" />
   </ItemGroup>
   <ItemGroup>

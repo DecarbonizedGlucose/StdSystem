@@ -15,4 +15,6 @@ public:
 	void showAllOrder();
 
 	void showAllClerk();
+
+	void showAllRoom();
 };

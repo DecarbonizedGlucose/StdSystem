@@ -102,38 +102,15 @@ void Cust::submitOrder()
 		}
 		else cout << "[Info] 输入有误，请重新输入" << endl;
 	}
-	ofs << code << " " << usrId << " " << num << " 0" << endl;
+	ofs << code << " " << usrId << " " << num << " 0 none" << endl;
 	ofs.close();
 	cout << "[Info] 提交成功" << endl;
-}
-
-ostream& operator<<(ostream& cout, Order& o)
-{
-	//cout << orderId << " " << usrId << " " << req << " " << state << endl;
-	cout << o.orderId << '\t' << o.usrId << '\t' << o.req << '\t';
-	switch (o.state)
-	{
-	case 0:
-		cout << "未处理"; break;
-	case 1:
-		cout << "已处理 未完成"; break;
-	case 2:
-		cout << "已完成"; break;
-	case 3:
-		cout << "驳回"; break;
-	case 4:
-		cout << "用户撤销"; break;
-	default:
-		cout << "你他妈是不是打错字了";
-	}
-	cout << endl;
-	return cout;
 }
 
 void Cust::showMyOrder()
 {
 	fstream ifs(ORDER_FILE, ios::in);
-	string code, name;
+	string code, name, room;
 	int num, state;
 	List<Order> orders;
 	while (ifs >> code)
@@ -141,12 +118,12 @@ void Cust::showMyOrder()
 		ifs >> name >> num >> state;
 		if (name == this->usrId)
 		{
-			orders.addBack(Order(code, name, num, state));
+			orders.addBack(Order(code, name, num, state, room));
 			//cout << "成功添加一个" << endl;
 		}
 	}
 	Node<Order>* f = orders.head->next;
-	cout << "编号\t\t用户\t需求\t状态" << endl;
+	cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
 	while (f)
 	{
 		cout << f->value;
