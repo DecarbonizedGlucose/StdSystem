@@ -17,4 +17,10 @@ public:
 	void showAllClerk();
 
 	void showAllRoom();
+
+	void custDoExist();
+
+	void showAllCustTime();
+
+	void showAllCustASCII();
 };

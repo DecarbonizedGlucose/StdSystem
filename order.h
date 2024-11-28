@@ -4,6 +4,7 @@
 #include <fstream>
 #include "customer.h"
 #include "globalfile.h"
+#include "list.h"
 using namespace std;
 
 class Order;
@@ -43,5 +44,7 @@ public:
 
 	static void showAll();
 
-	static void showOnes();
+	static void showOnes(string usrId);
+
+	static List<Order>* showUn();
 };

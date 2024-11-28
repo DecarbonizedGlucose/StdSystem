@@ -19,11 +19,15 @@ Admin::Admin(string id, string psw)
 void Admin::operMenu()
 {
 	system("cls");
-	cout << "==================" << endl;
-	cout << " 1. 查看所有预约" << endl;
+	cout << "=============================" << endl;
+	cout << " 1. 查看所有订单" << endl;
 	cout << " 2. 查看所有服务员" << endl;
+	cout << " 3. 查看所有房间" << endl;
+	cout << " 4. 按注册时间顺序显示所有用户" << endl;
+	cout << " 5. 按字典顺序显示所有用户" << endl;
+	cout << " 6. 查找用户是否存在" << endl;
 	cout << " 0. 退出账号" << endl;
-	cout << "==================" << endl;
+	cout << "=============================" << endl;
 	string choice;
 	while (true)
 	{
@@ -38,6 +42,22 @@ void Admin::operMenu()
 		{
 			// show all clerks
 			showAllClerk();
+		}
+		else if (choice == "3")
+		{
+			showAllRoom();
+		}
+		else if (choice == "4")
+		{
+			showAllCustTime();
+		}
+		else if (choice == "5")
+		{
+			showAllCustASCII();
+		}
+		else if (choice == "6")
+		{
+			custDoExist();
 		}
 		else if (choice == "0")
 		{
@@ -77,4 +97,30 @@ void Admin::showAllClerk()
 void Admin::showAllRoom()
 {
 	Room::showAll();
+}
+
+void Admin::custDoExist()
+{
+	string name;
+	cout << "请输入用户名：" << endl;
+	cout << "<Input> ";
+	getline(cin, name);
+	if (Cust::find(name))
+	{
+		cout << "[Info] 该用户存在" << endl;
+	}
+	else
+	{
+		cout << "[Info] 该用户不存在" << endl;
+	}
+}
+
+void Admin::showAllCustTime()
+{
+	Cust::showAllTime();
+}
+
+void Admin::showAllCustASCII()
+{
+	Cust::showAllASCII();
 }

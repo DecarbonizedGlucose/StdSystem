@@ -6,7 +6,6 @@
 #include "list.h"
 using namespace std;
 
-
 class Room;
 
 ostream& operator<<(ostream& cout, Room r);
@@ -21,7 +20,7 @@ public:
 	// 1 已分配
 
 	Room() {}
-	
+
 	Room(string id, int size, int state)
 	{
 		roomId = id;
@@ -52,34 +51,35 @@ public:
 		ifs.close();
 	}
 
-	static void showAvailable()
+	static List<Room>* showAvailable()
 	{
 		ifstream ifs(ROOM_FILE, ios::in);
 		if (!ifs.is_open())
 		{
 			cout << "[Info] 文件读取失败" << endl;
 			ifs.close();
-			return;
+			return nullptr;
 		}
-		List<Room> rooms;
+		List<Room>* rooms = new List<Room>;
 		string id;
-		int size, state;
+		int size, state, cnt = 0;
 		while (ifs >> id)
 		{
 			ifs >> size >> state;
-			if (!state) rooms.addBack(Room(id, size, state));
+			rooms->addBack(Room(id, size, state));
+			if (state == 0) ++cnt;
 		}
 		ifs.close();
-		if (rooms.length == 0) cout << endl << "[Info] 没有空闲的房间" << endl << endl;
+		if (cnt == 0) cout << endl << "[Info] 没有空闲的房间" << endl << endl;
 		else
 		{
 			cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
-			Node<Room>* f = rooms.head->next;
+			Node<Room>* f = rooms->head->next;
 			while (f)
 			{
-				cout << f -> value;
+				cout << f->value;
 				f = f->next;
 			}
 		}
 	}
-};
+}; 

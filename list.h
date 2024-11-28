@@ -39,7 +39,7 @@ public:
 	bool empty();
 	Node<T>* tail();
 	Node<T>* ptrOf(int idx);
-	T valueOf(int idx);
+	T& valueOf(int idx);
 	T operator[](int idx);
 	T front();
 	T back();
@@ -271,7 +271,7 @@ Node<T>* List<T>::ptrOf(int idx) // 根据序号索引结点位置
 }
 
 template<class T>
-T List<T>::valueOf(int idx) // 根据序号索引结点数据
+T& List<T>::valueOf(int idx) // 根据序号索引结点数据
 {
 	return ptrOf(idx)->value;
 }

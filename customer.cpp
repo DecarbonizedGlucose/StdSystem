@@ -158,13 +158,14 @@ void Cust::cancelOrder()
 		return;
 	}
 	Node<Order>* f = orders.head->next;
-	cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
+	cout << "编号\t\t用户\t需求\t\t状态\t房间" << endl;
 	while (f)
 	{
 		if (f->value.usrId == this->usrId)
 			cout << f->value;
 		f = f->next;
 	}
+	cout << "[Info] 共找到" << cnt << "条订单记录" << endl;
 	ifs.close();
 	cout << endl << "请输入要取消的订单（输入0返回）：" << endl;
 	string iptId;
@@ -205,6 +206,49 @@ void Cust::cancelOrder()
 
 bool Cust::find(string usrId)
 {
-	bool flag = 0;
-	return flag;
+	ifstream ifs(CUSTOMER_FILE, ios::in);
+	string name, psw;
+	while (ifs >> name)
+	{
+		ifs >> psw;
+		if (name == usrId)
+		{
+			ifs.close();
+			return true;
+		}
+	}
+	ifs.close();
+	return false;
+}
+
+void Cust::showAllTime()
+{
+	ifstream ifs(CUSTOMER_FILE, ios::in);
+	string name, psw;
+	while (ifs >> name)
+	{
+		ifs >> psw;
+		cout << name << endl;
+	}
+	ifs.close();
+}
+
+void Cust::showAllASCII()
+{
+	List<string> names;
+	ifstream ifs(CUSTOMER_FILE, ios::in);
+	string name, psw;
+	while (ifs >> name)
+	{
+		ifs >> psw;
+		names.addBack(name);
+	}
+	ifs.close();
+	names.bubbleSort();
+	Node<string>* f = names.head->next;
+	while (f)
+	{
+		cout << f->value << endl;
+		f = f->next;
+	}
 }

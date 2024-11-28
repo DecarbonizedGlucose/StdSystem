@@ -23,4 +23,8 @@ public:
 	void cancelOrder();
 
 	static bool find(string usrId);
+
+	static void showAllTime();
+
+	static void showAllASCII();
 };

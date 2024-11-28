@@ -62,6 +62,55 @@ Person* signIn(int type, string file)
 	return nullptr;
 }
 
+bool stryes(string s)
+{
+	if (8 <= s.length() && s.length() <= 16)
+	{
+		for (char c : s)
+		{
+			if (!(('0' <= c && c <= '9') || ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')))
+				return 0;
+		}
+		return 1;
+	}
+	return 0;
+}
+
+void regi()
+{
+	string name, psw;
+	while (1)
+	{
+		cout << "请输入用户名（8~16位，仅包含英文字母和数字）：" << endl;
+		cout << "<Input> ";
+		getline(cin, name);
+		if (stryes(name))
+			break;
+		else
+			cout << "[Info] 用户名不合法" << endl;
+	}
+	while (1)
+	{
+		cout << "请输入密码（8~16位，仅包含英文字母和数字）：" << endl;
+		cout << "<Input> ";
+		getline(cin, psw);
+		if (stryes(psw))
+			break;
+		else
+			cout << "[Info] 密码不合法" << endl;
+	}
+	ofstream ofs(CUSTOMER_FILE, ios::out | ios::app);
+	if (!ofs.is_open())
+	{
+		cout << "[Info] 注册失败" << endl;
+		ofs.close();
+		return;
+	}
+	ofs << name << " " << psw << endl;
+	ofs.close();
+	cout << "[Info] 注册成功" << endl;
+}
+
 int main()
 {
 	bool running = true;
@@ -138,6 +187,7 @@ int main()
 			else if (choice == "2")
 			{
 				// register
+				regi();
 			}
 			else if (choice == "0")
 			{
