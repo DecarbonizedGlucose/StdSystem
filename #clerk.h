@@ -23,4 +23,6 @@ public:
 	void manageOrder();
 
 	void showAllRoom();
+
+	void showUnOrder();
 };

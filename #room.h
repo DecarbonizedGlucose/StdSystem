@@ -73,7 +73,7 @@ public:
 		if (cnt == 0) cout << endl << "[Info] 没有空闲的房间" << endl << endl;
 		else
 		{
-			cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
+			cout << "编号          |  用户         |   需求    |  状态    | 房间" << endl;
 			Node<Room>* f = rooms->head->next;
 			while (f)
 			{

@@ -23,7 +23,7 @@ ostream& operator<<(ostream& cout, Order& o)
 	default:
 		cout << "你他妈是不是打错字了";
 	}
-	if (o.roomId != "none") cout << '\t' << o.roomId;
+	cout << '\t' << o.roomId;
 	cout << endl;
 	return cout;
 }
@@ -43,14 +43,14 @@ void Order::showAll()
 		ifs.close();
 		return;
 	}
-	cout << "编号\t\t用户\t需求\t\t状态\t房间" << endl;
+	cout << "编号          |  用户         |   需求    |  状态    | 房间" << endl;
 	string odid, urid, room;
 	int req, state;
 	while (ifs >> odid)
 	{
 		ifs >> urid >> req >> state >> room;
 		cnt++;
-		cout << odid << '\t' << urid << '\t' << req << '\t\t';
+		cout << odid << '\t' << urid << '\t' << req << "\t\t";
 		switch (state)
 		{
 		case 0:
@@ -66,7 +66,7 @@ void Order::showAll()
 		default:
 			cout << "你他妈是不是打错字了";
 		}
-		if (room != "none") cout << '\t' << room;
+		cout << '\t' << room;
 		cout << endl;
 	}
 	cout << "[Info] 共找到" << cnt << "条订单记录" << endl;
@@ -77,29 +77,32 @@ void Order::showOnes(string usrId)
 {
 	fstream ifs(ORDER_FILE, ios::in);
 	string code, name, room;
-	int num, state;
+	int num, state, cnt = 0;
 	List<Order> orders;
 	while (ifs >> code)
 	{
-		ifs >> name >> num >> state;
+		ifs >> name >> num >> state >> room;
 		if (name == usrId)
+		{
+			++cnt;
 			orders.addBack(Order(code, name, num, state, room));
+		}
 	}
-	if (!orders.length)
+	if (!cnt)
 	{
 		cout << endl << "[Info] 未找到相关订单" << endl << endl;
 		ifs.close();
 		return;
 	}
 	Node<Order>* f = orders.head->next;
-	cout << "编号\t\t用户\t需求\t\t状态\t房间" << endl;
+	cout << "编号          |  用户         |   需求    |  状态    | 房间" << endl;
 	while (f)
 	{
 		if (f->value.usrId == usrId)
 			cout << f->value;
 		f = f->next;
 	}
-	cout << "[Info] 共找到" << orders.length << "条订单记录" << endl;
+	cout << "[Info] 共找到" << cnt << "条订单记录" << endl;
 	ifs.close();
 }
 
@@ -111,7 +114,7 @@ List<Order>* Order::showUn()
 	List<Order>* orders = new List<Order>;
 	while (ifs >> code)
 	{
-		ifs >> name >> num >> state;
+		ifs >> name >> num >> state >> room;
 		orders->addBack(Order(code, name, num, state, room));
 		if (state == 0) ++cnt;
 	}
@@ -122,7 +125,7 @@ List<Order>* Order::showUn()
 		return nullptr;
 	}
 	Node<Order>* f = orders->head->next;
-	cout << "编号\t\t用户\t需求\t\t状态\t房间" << endl;
+	cout << "编号          |  用户         |   需求    |  状态    | 房间" << endl;
 	while (f)
 	{
 		if (f->value.state == 0)

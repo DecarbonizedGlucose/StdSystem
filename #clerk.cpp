@@ -13,45 +13,60 @@ Clerk::Clerk(string id, string psw) : usrId(id), usrPsw(psw) {}
 
 void Clerk::operMenu()
 {
-	system("cls");
-	std::cout << "==================" << endl;
-	std::cout << " 1. 查看所有订单" << endl;
-	std::cout << " 2. 处理订单" << endl;
-	std::cout << " 3. 查看某人订单" << endl;
-	std::cout << " 4. 查看所有房间" << endl;
-	std::cout << " 0. 退出账号" << endl;
-	std::cout << "==================" << endl;
-	string choice;
-	while (true)
+	while (1)
 	{
-		std::cout << "<Input> ";
-		getline(cin, choice);
-		if (choice == "1")
+		cout << "==================" << endl;
+		cout << " 1. 查看所有订单" << endl;
+		cout << " 2. 处理订单" << endl;
+		cout << " 3. 查看某人订单" << endl;
+		cout << " 4. 查看未处理订单" << endl;
+		cout << " 5. 查看所有房间" << endl;
+		cout << " 0. 退出账号" << endl;
+		cout << "==================" << endl;
+		string choice;
+		while (true)
 		{
-			// show all order
-			showAllOrder();
+			cout << "<Input> ";
+			getline(cin, choice);
+			if (choice == "1")
+			{
+				// show all order
+				showAllOrder();
+				break;
+			}
+			else if (choice == "2")
+			{
+				// manage orders
+				manageOrder();
+				break;
+			}
+			else if (choice == "3")
+			{
+				showOnesOrder();
+				break;
+			}
+			else if (choice == "4")
+			{
+				showUnOrder();
+				break;
+			}
+			else if (choice == "5")
+			{
+				showAllRoom();
+				break;
+			}
+			else if (choice == "0")
+			{
+				return;
+			}
+			else
+			{
+				cout << "[Info] 输入有误，请重新输入" << endl;
+				break;
+			}
 		}
-		else if (choice == "2")
-		{
-			// manage orders
-			manageOrder();
-		}
-		else if (choice == "3")
-		{
-			showOnesOrder();
-		}
-		else if (choice == "4")
-		{
-			showAllRoom();
-		}
-		else if (choice == "0")
-		{
-			return;
-		}
-		else
-		{
-			std::cout << "[Info] 输入有误，请重新输入" << endl;
-		}
+		system("pause");
+		system("cls");
 	}
 }
 
@@ -63,8 +78,8 @@ void Clerk::showAllOrder()
 void Clerk::showOnesOrder()
 {
 	string name;
-	std::cout << "请输入用户名：" << endl;
-	std::cout << "<Input> ";
+	cout << "请输入用户名：" << endl;
+	cout << "<Input> ";
 	getline(cin, name);
 	Order::showOnes(name);
 }
@@ -73,8 +88,8 @@ void Clerk::manageOrder()
 {
 	List<Order>* orders = Order::showUn();
 	if (orders == nullptr) return;
-	std::cout << "你要给哪个订单分配？" << endl;
-	std::cout << "<Input> " << endl;
+	cout << "你要给哪个订单分配？" << endl;
+	cout << "<Input> " << endl;
 	string orderId;
 	getline(cin, orderId);
 	if (Node<Order>*o=orders->find(Order(orderId, "", 0, 0, "")))
@@ -97,7 +112,7 @@ void Clerk::manageOrder()
 				ofstream ofs1(ROOM_FILE, ios::out | ios::trunc);
 				if (!ofs1.is_open())
 				{
-					std::cout << "[Info] 分配失败" << endl;
+					cout << "[Info] 分配失败" << endl;
 					ofs1.close();
 					delete orders;
 					delete rs;
@@ -113,7 +128,7 @@ void Clerk::manageOrder()
 				ofstream ofs2(ORDER_FILE, ios::out | ios::trunc);
 				if (!ofs2.is_open())
 				{
-					std::cout << "[Info] 分配失败" << endl;
+					cout << "[Info] 分配失败" << endl;
 					ofs2.close();
 					delete orders;
 					delete rs;
@@ -130,25 +145,30 @@ void Clerk::manageOrder()
 				}
 				ofs2.close();
 
-				std::cout << "[Info] 分配成功" << endl;
+				cout << "[Info] 分配成功" << endl;
 				delete orders;
 				delete rs;
 				return;
 			}
 			else
 			{
-				std::cout << "[Info] 没有合适大小的房间" << endl;
+				cout << "[Info] 没有合适大小的房间" << endl;
 				delete orders;
 				delete rs;
 				return;
 			}
 		}
 	}
-	std::cout << "[Info] 订单不存在或已分配" << endl;
+	cout << "[Info] 订单不存在或已分配" << endl;
 	delete orders;
 }
 
 void Clerk::showAllRoom()
 {
 	Room::showAll();
+}
+
+void Clerk::showUnOrder()
+{
+	Order::showUn();
 }

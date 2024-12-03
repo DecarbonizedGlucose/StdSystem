@@ -18,45 +18,24 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="admin.cpp">
+    <ClCompile Include="BLL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="clerk.cpp">
+    <ClCompile Include="DAL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="customer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="room.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="order.cpp">
+    <ClCompile Include="UI.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="person.h">
+    <ClInclude Include="BLL.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="admin.h">
+    <ClInclude Include="DAL.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="customer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="clerk.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="globalfile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="list.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="order.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="room.h">
+    <ClInclude Include="UI.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,42 +18,50 @@ Cust::Cust(string id, string psw) : usrId(id), usrPsw(psw) {}
 
 void Cust::operMenu()
 {
-	system("cls");
-	cout << "==================" << endl;
-	cout << " 1. 创建提交预约" << endl;
-	cout << " 2. 查看我的预约" << endl;
-	cout << " 3. 取消预约" << endl;
-	cout << " 0. 退出账号" << endl;
-	cout << "==================" << endl;
-	string choice;
-	while (true)
+	while (1)
 	{
-		cout << "<Input> ";
-		getline(cin, choice);
-		//cin >> choice;
-		if (choice == "1")
+		cout << "==================" << endl;
+		cout << " 1. 创建提交预约" << endl;
+		cout << " 2. 查看我的预约" << endl;
+		cout << " 3. 取消预约" << endl;
+		cout << " 0. 退出账号" << endl;
+		cout << "==================" << endl;
+		string choice;
+		while (true)
 		{
-			// create and submit an order
-			submitOrder();
+			cout << "<Input> ";
+			getline(cin, choice);
+			//cin >> choice;
+			if (choice == "1")
+			{
+				// create and submit an order
+				submitOrder();
+				break;
+			}
+			else if (choice == "2")
+			{
+				// show my orders
+				showMyOrder();
+				break;
+			}
+			else if (choice == "3")
+			{
+				// cancel my order
+				cancelOrder();
+				break;
+			}
+			else if (choice == "0")
+			{
+				return;
+			}
+			else
+			{
+				cout << "[Info] 输入有误，请重新输入" << endl;
+				break;
+			}
 		}
-		else if (choice == "2")
-		{
-			// show my orders
-			showMyOrder();
-		}
-		else if (choice == "3")
-		{
-			// cancel my order
-			cancelOrder();
-		}
-		else if (choice == "0")
-		{
-			return;
-		}
-		else
-		{
-			cout << "[Info] 输入有误，请重新输入" << endl;
-		}
+		system("pause");
+		system("cls");
 	}
 }
 
@@ -112,14 +120,14 @@ void Cust::showMyOrder()
 {
 	fstream ifs(ORDER_FILE, ios::in);
 	string code, name, room;
-	int num, state;
+	int req, state;
 	List<Order> orders;
 	while (ifs >> code)
 	{
-		ifs >> name >> num >> state >> room;
+		ifs >> name >> req >> state >> room;
 		if (name == this->usrId)
 		{
-			orders.addBack(Order(code, name, num, state, room));
+			orders.addBack(Order(code, name, req, state, room));
 		}
 	}
 	if (orders.length == 0)
@@ -129,7 +137,7 @@ void Cust::showMyOrder()
 		return;
 	}
 	Node<Order>* f = orders.head->next;
-	cout << "编号\t\t用户\t需求\t状态\t房间" << endl;
+	cout << "编号          |  用户         |   需求    |  状态    | 房间" << endl;
 	while (f)
 	{
 		cout << f->value;
@@ -143,22 +151,22 @@ void Cust::cancelOrder()
 {
 	fstream ifs(ORDER_FILE, ios::in);
 	string code, name, room;
-	int num, state, cnt = 0;
+	int req, state, cnt = 0;
 	List<Order> orders;
 	while (ifs >> code)
 	{
-		ifs >> name >> num >> state;
+		ifs >> name >> req >> state >> room;
 		if (name == this->usrId) ++cnt;
-		orders.addBack(Order(code, name, num, state, room));
+		orders.addBack(Order(code, name, req, state, room));
 	}
-	if (!cnt)
+	if (cnt == 0)
 	{
 		cout << endl << "[Info] 未找到相关订单" << endl << endl;
 		ifs.close();
 		return;
 	}
 	Node<Order>* f = orders.head->next;
-	cout << "编号\t\t用户\t需求\t\t状态\t房间" << endl;
+	cout << "编号          |  用户         |   需求    |  状态    | 房间" << endl;
 	while (f)
 	{
 		if (f->value.usrId == this->usrId)
